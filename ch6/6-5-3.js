@@ -1,3 +1,5 @@
-export function inNewEngland(aCustomer) {
-  return ['MA', 'CT', 'ME', 'VT', 'NH', 'RI'].includes(aCustomer.address.state);
+const newEnglanders = someCustomers.filter(c => inNewEngland(c.address.state));
+export function inNewEngland(stateCode) {
+  return ['MA', 'CT', 'ME', 'VT', 'NH', 'RI'].includes(stateCode);
+
 }
