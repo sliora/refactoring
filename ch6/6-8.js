@@ -1,8 +1,11 @@
-export function readingsOutsideRange(station, min, max) {
-  return station.readings.filter((r) => r.temp < min || r.temp > max);
+function filterReadingsOutsideRange(stationData, temperatureRange) {
+  const { readings } = stationData;
+  const { temperatureFloor, temperatureCeiling } = temperatureRange;
+
+  return readings.filter((r) => r.temp < temperatureFloor || r.temp > temperatureCeiling);
 }
 
-const station = {
+const stationData = {
   name: 'ZB1',
   readings: [
     { temp: 47, time: '2016-11-10 09:10' },
@@ -12,13 +15,11 @@ const station = {
     { temp: 51, time: '2016-11-10 09:50' },
   ],
 };
-const operationPlan = {
+const temperatureRange = {
   temperatureFloor: 51,
   temperatureCeiling: 53,
 };
 
-readingsOutsideRange(
-  station,
-  operationPlan.temperatureFloor,
-  operationPlan.temperatureCeiling
-);
+const alerts = filterReadingsOutsideRange(stationData, temperatureRange);
+
+console.log(alerts);
