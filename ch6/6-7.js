@@ -1,6 +1,14 @@
-let a = height * width;
+let area = height * width;
 
-const cpyNm = '애플';
+const companyName = '애플';
 
-let tpHd = '제목없음';
-let result = `<h1>${tpHd}</h1>`;
+let _title = '제목없음';
+let result = `<h1>${_title}</h1>`;
+
+function title() {
+    return _title;
+}
+
+function setTitle(arg) {
+    _title = arg;
+}
