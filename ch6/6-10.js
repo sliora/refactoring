@@ -1,10 +1,10 @@
-const reading = { customer: 'ivan', quantity: 10, month: 5, year: 2017 };
+function enrichReading(original) {
+  const result = _.cloneDeep(original);
+  result.baseCharge = calculateBaseChage(result);
+  result.taxableCharge = Math.max(
+      0,
+      result.baseCharge - taxThreshold(result.year),
+  );
 
-export function acquireReading() {
-  return reading;
-}
-
-export function baseRate(month, year) {
-  if (year === 2017 && month === 5) return 0.1;
-  return 0.2;
+  return result;
 }
