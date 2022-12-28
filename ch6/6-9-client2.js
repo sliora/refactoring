@@ -1,6 +1,5 @@
-const newReading = acquireReading();
-const aReading = new aReading(rawReading);
-const taxableCharge = Math.max(
-    0,
-    aReading.baseCharge - taxThreshold(aReading.year),
-);
+import { acquireReading } from './6-9.js';
+
+const reading = acquireReading();
+export const taxableCharge = reading.taxableCharge;
+console.log(taxableCharge);

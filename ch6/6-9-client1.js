@@ -1,3 +1,4 @@
-const rawReading = acquireReading();
-const aReading = new Reading(rawReading);
-const baseCharge = aReading.baseCharge;
+import { acquireReading } from './6-9.js';
+
+const reading = acquireReading();
+console.log(reading.baseCharge);
