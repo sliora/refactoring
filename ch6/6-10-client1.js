@@ -1,3 +1,7 @@
+import { acquireReading, enrichReading } from './6-10.js';
+
 const rawReading = acquireReading();
-const aReading = enrichReading(rawReading);
-const baseCharge = aReading.baseCharge;
+const reading = enrichReading(rawReading);
+
+console.log(reading.baseCharge);
+console.log(reading.taxableCharge);
