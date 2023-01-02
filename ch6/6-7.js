@@ -1,14 +1,6 @@
-let area = height * width;
+let area = width * height;
 
 const companyName = '애플';
 
-let _title = '제목없음';
-let result = `<h1>${_title}</h1>`;
-
-function title() {
-    return _title;
-}
-
-function setTitle(arg) {
-    _title = arg;
-}
+let title = '제목없음';
+let result = `<h1>${title}</h1>`;
