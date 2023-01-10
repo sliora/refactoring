@@ -11,10 +11,6 @@ export class Account {
     return result;
   }
 
-  get overdraftCharge() {
-    return this.type.overdraftCharge(this);
-  }
-
   get daysOverdrawn() {
     return this._daysOverdrawn;
   }
