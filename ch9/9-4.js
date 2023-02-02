@@ -23,7 +23,7 @@ class Person {
   }
 
   set officeAreaCode(value) {
-    this.#telephoneNumber.areaCode = value;
+    this.#telephoneNumber = new TelephoneNumber(value, this.officeNumber);
   }
 
   get officeNumber() {
@@ -31,7 +31,7 @@ class Person {
   }
 
   set officeNumber(value) {
-    this.#telephoneNumber.number = value;
+    this.#telephoneNumber.number = new TelephoneNumber(this.officeAreaCode, value);
   }
 }
 
@@ -46,19 +46,18 @@ class TelephoneNumber {
   get areaCode() {
     return this.#areaCode;
   }
-  set areaCode(arg) {
-    this.#areaCode = arg;
-  }
 
   get number() {
     return this.#number;
   }
-  set number(arg) {
-    this.#number = arg;
-  }
 
   get toString() {
     return `(${this.#areaCode}) ${this.#number}`;
+  }
+
+  equals(other) {
+    if (!(other instanceof TelephoneNumber)) return false;
+    return this.#areaCode === other.areaCode && this.#number ===other.number;
   }
 }
 
