@@ -2,41 +2,30 @@
 class Order {
 
   #discount;
-  #total;
-
+  #baseTotal;
   #discountedTotal;
 
   constructor() {
     this.#discount = 0;
-    this.#total = 0;
+    this.#baseTotal = 0;
   }
 
-  get total() {
-    return this.#total;
-  }
-
-  set total(value) {
-    this.#total = value;
-    this.#discountedTotal = this.#total - this.#discount;
-  }
-
-  get discount() {
-    return this.#discount;
+  set baseTotal(value) {
+    this.#baseTotal = value;
   }
 
   set discount(value) {
     this.#discount = value;
-    this.#discountedTotal = this.#total - this.#discount;
   }
 
   get discountedTotal() {
-    return this.#discountedTotal;
+    return this.#baseTotal- this.#discount;
   }
 }
 
 const order = new Order();
 
-order.total = 100;
+order.baseTotal = 100;
 console.log(order.discountedTotal); // outputs: 100
 
 order.discount = 20;
