@@ -1,12 +1,55 @@
 export function plumages(birds) {
-  let map = birds.map((b) => [b.name, plumage(b)]);
-  let map1 = new Map(map);
-  return map1;
+  return new Map(birds
+      .map(b => createBird(b))
+      .map(bird => [bird.name, bird.plumage]));
 }
+
 export function speeds(birds) {
-  return new Map(birds.map((b) => [b.name, airSpeedVelocity(b)]));
+  return new Map(birds
+      .map((b) => createBird(b))
+      .map(bird => [bird.name, bird.airSpeedVelocity]));
 }
+
+function createBird(bird) {
+  switch (bird.type) {
+    case 'EuropeanSwallow':
+      return new EuropeanSwallow(bird);
+    case 'AfricanSwallow':
+      return new AfricanSwallow(bird);
+    case 'NorwegianBlueParrot':
+      return new NorwegianBlueParrot(bird)
+    default:
+      return new Bird(bird);
+  }
+}
+
+class Bird {
+  constructor(birdObject) {
+    Object.assign(this, birdObject);
+  }
+
+  get plumage() {
+    return "Unknown"
+  }
+
+  get airSpeedVelocity() {
+        return null;
+    }
+}
+
+class EuropeanSwallow extends Bird {
+
+  get plumage() {
+    return "알 수 없다";
+  }
+  
+  get airSpeedVelocity() {
+    return null;
+  }
+}
+
 export function plumage(bird) {
+
   switch (bird.type) {
     case 'EuropeanSwallow':
       return 'average';
