@@ -48,28 +48,35 @@ class EuropeanSwallow extends Bird {
   }
 }
 
-export function plumage(bird) {
+class AfricanSwallow extends Bird {
 
-  switch (bird.type) {
-    case 'EuropeanSwallow':
-      return 'average';
-    case 'AfricanSwallow':
-      return bird.numberOfCoconuts > 2 ? 'tired' : 'average';
-    case 'NorwegianBlueParrot':
-      return bird.voltage > 100 ? 'scorched' : 'beautiful';
-    default:
-      return 'unknown';
+  get plumage() {
+    return this.numberOfCoconuts > 2 ? "지쳤다" : "보통이다"
+  }
+
+  get airSpeedVelocity() {
+    return 40 - 2 * this.numberOfCoconuts;
   }
 }
-export function airSpeedVelocity(bird) {
-  switch (bird.type) {
-    case 'EuropeanSwallow':
-      return 35;
-    case 'AfricanSwallow':
-      return 40 - 2 * bird.numberOfCoconuts;
-    case 'NorwegianBlueParrot':
-      return bird.isNailed ? 0 : 10 + bird.voltage / 10;
-    default:
-      return null;
+
+class NorwegianBlueParrot extends Bird {
+
+  get plumage() {
+    return this.voltage > 100 ? "그을렸다" : "예쁘다"
+  }
+
+  get airSpeedVelocity() {
+    return this.isNailed ? 0 : 10 + this.voltage / 10;
   }
 }
+
+const birds = [
+  { name: 'EuropeanSwallow', type: 'EuropeanSwallow'},
+  { name: 'AfricanSwallow1', type: 'AfricanSwallow', numberOfCoconuts: 2},
+  { name: 'AfricanSwallow2', type: 'AfricanSwallow', numberOfCoconuts: 3},
+  { name: 'NorwegianBlueParrot1', type: 'NorwegianBlueParrot', voltage: 110, isNailed: true},
+  { name: 'NorwegianBlueParrot2', type: 'NorwegianBlueParrot', voltage: 90, isNailed: false}
+];
+
+console.log('Plumages:', plumages(birds));
+console.log('Speeds:', speeds(birds));
