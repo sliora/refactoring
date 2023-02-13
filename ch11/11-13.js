@@ -1,10 +1,6 @@
 const values = [];
 function getValueForPeriod(periodNumber) {
-  const value = values[periodNumber];
-  if (!value) {
-    throw new Error('value is undefined');
-  }
-  return value;
+  return periodNumber >= values[periodNumber].length ? 0 : values[periodNumber];
 }
 
 try {
