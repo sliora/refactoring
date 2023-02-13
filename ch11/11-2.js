@@ -8,6 +8,11 @@ function fivePercentRaise(person) {
   person.salary = person.salary.multiply(0.5 + FACTOR);
 }
 
+//예제 1-1
+function raise(person, factor) {
+  person.salary = person.salary.multiply(1 + factor);
+}
+
 // 예제 2
 export function baseCharge(usage) {
   if (usage < 0) return usd(0);
