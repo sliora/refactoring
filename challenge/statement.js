@@ -7,6 +7,13 @@ export function createHtmlInvoice(invoice, plays) {
 }
 
 function createStatementData(invoice, plays) {
+  const statementData = {};
+  statementData.customer = invoice.customer;
+  statementData.performances = invoice.performances.map(enrichPerformance);
+
+  statementData.totalAmount = totalAmount(statementData);
+  statementData.totalVolumeCredits = totalVolumeCredits(statementData);
+
   function totalAmount(data) {
     return data.performances.reduce((total, p) => total + p.amount, 0);
   }
@@ -24,13 +31,6 @@ function createStatementData(invoice, plays) {
       volumeCredits: calculator.volumeCredits,
     };
   }
-
-  const statementData = {};
-  statementData.customer = invoice.customer;
-  statementData.performances = invoice.performances.map(enrichPerformance);
-
-  statementData.totalAmount = totalAmount(statementData);
-  statementData.totalVolumeCredits = totalVolumeCredits(statementData);
 
   return statementData;
 }
