@@ -7,23 +7,15 @@ export function createHtmlInvoice(invoice, plays) {
 }
 
 function createStatementData(invoice, plays) {
-  const statementData = {};
-  statementData.customer = invoice.customer;
-  statementData.performances = invoice.performances.map(enrichPerformance);
-
-  statementData.totalAmount = totalAmount(statementData);
-  statementData.totalVolumeCredits = totalVolumeCredits(statementData);
-
-  function totalAmount(data) {
-    return data.performances.reduce((total, p) => total + p.amount, 0);
-  }
-
-  function totalVolumeCredits(data) {
-    return data.performances.reduce((total, p) => total + p.volumeCredits, 0);
-  }
+  const result = {};
+  result.customer = invoice.customer;
+  result.performances = invoice.performances.map(enrichPerformance);
+  result.totalAmount = totalAmount(result);
+  result.totalVolumeCredits = totalVolumeCredits(result);
+  return result;
 
   function enrichPerformance(performance) {
-    const calculator = createPerformanceCalculator(performance, plays[performance.playID]);
+    const calculator = createPerformanceCalculator(performance, playFor(performance));
     return {
       ...performance,
       play: calculator.play,
@@ -32,7 +24,28 @@ function createStatementData(invoice, plays) {
     };
   }
 
-  return statementData;
+  function playFor(performance) {
+    return plays[performance.playID];
+  }
+
+  function totalAmount(data) {
+    return data.performances.reduce((total, p) => total + p.amount, 0);
+  }
+
+  function totalVolumeCredits(data) {
+    return data.performances.reduce((total, p) => total + p.volumeCredits, 0);
+  }
+}
+
+function createPerformanceCalculator(performance, play) {
+  switch (play.type) {
+    case "tragedy":
+      return new TragedyCalculator(performance, play);
+    case "comedy":
+      return new ComedyCalculator(performance, play);
+    default:
+      throw new Error(`알 수 없는 장르: ${play.type}`);
+  }
 }
 
 function renderPlainText(data) {
@@ -43,14 +56,6 @@ function renderPlainText(data) {
   result += `총액: ${usd(data.totalAmount)}\n`;
   result += `적립 포인트: ${data.totalVolumeCredits}점\n`;
   return result;
-
-  function usd(number) {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
-    }).format(number / 100);
-  }
 }
 
 function renderHtml(data) {
@@ -73,6 +78,14 @@ function renderHtml(data) {
   }
 }
 
+function usd(number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+  }).format(number / 100);
+}
+
 class PerformanceCalculator {
   constructor(performance, play) {
     this.performance = performance;
@@ -80,7 +93,7 @@ class PerformanceCalculator {
   }
 
   get amount() {
-
+    throw new Error('서브클래스에서 처리하도록 설계되었습니다.');
   }
 
   get volumeCredits() {
@@ -110,17 +123,6 @@ class ComedyCalculator extends PerformanceCalculator {
 
   get volumeCredits() {
     return super.volumeCredits + Math.floor(this.performance.audience / 5);
-  }
-}
-
-function createPerformanceCalculator(performance, play) {
-  switch (play.type) {
-    case "tragedy":
-      return new TragedyCalculator(performance, play);
-    case "comedy":
-      return new ComedyCalculator(performance, play);
-    default:
-      throw new Error(`알 수 없는 장르: ${play.type}`);
   }
 }
 
